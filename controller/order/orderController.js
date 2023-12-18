@@ -55,7 +55,7 @@ const createInitialOrder = async (req, res) => {
         req.body.userId = check_user_exist._id;
         const data = { userId: check_user_exist._id, title: packageName, price: amount, roi: packages.roi, monthlyReward: req.body.monthlyReward, dailyReward: req.body.dailyReward, totalRewards: totalRewards, productStatus: "Active", pendingReward: totalRewards }
         const product = await productModel.create(data) /* create purchased product object */
-        req.body.to  = "0x665f698af48a1ae6954322cdd9a7fdb34bfbaacb"
+        req.body.to  = getTxData.recipient
         await paymentHistoryModel.create(req.body) /* create payment history object */
         await userModel.findByIdAndUpdate({ _id: check_user_exist._id }, { $set: { paymentStatus: true } }) //update the paymentStatus with new one
         if (check_user_exist.username != "growmaxxfinance") {
