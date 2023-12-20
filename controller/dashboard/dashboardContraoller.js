@@ -10,6 +10,7 @@ import paymetHistoryModel from '../../model/paymentHistory/paymentHistory'
 import passive from '../../model/rewards/passive';
 import walletModel from '../../model/rewards/wallet';
 import businessModel from '../../model/rewards/business'
+import oneTimeRewardModel from '../../model/rewards/oneTimeReward';
 import mongoose from 'mongoose';
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -69,6 +70,8 @@ const displayData = async (req, res) => {
             {
                 $group: {
                     _id: "$id",
+                    totalInvestment: { $sum: "$price" },
+                    monthlyReward: { $sum: "$monthlyReward" },
                     totalReward: { $sum: "$totalRewards" },
                     passiveReward: { $sum: "$claimedPassiveRewards" },
                     pending: { $sum: "$pendingReward" },
@@ -76,7 +79,16 @@ const displayData = async (req, res) => {
                     count: { $sum: 1 }
                 }
             }]);
-
+            var directEarning = await oneTimeRewardModel.aggregate([
+                { $match: { userId: userId } },
+                {
+                    $group: {
+                        _id: "$id",
+                        rewardPoint: { $sum: "$rewardPoint" },
+                        count: { $sum: 1 }
+                    }
+                }]);
+            console.log("=====>directEarning", directEarning[0]);
         let dailyCommunityReward = 0;
         let dailyPassiveReward = 0;
         const reward = await rewardsModel.findOne({ username: check_user_exist.username }).sort({ createdAt: -1 });
@@ -106,7 +118,7 @@ const displayData = async (req, res) => {
                 dailyPassiveReward = dailyPassiveReward + passReward.reward;
             }
         }
-        return responseHandler(res, 200, "Success", {coreWallet: walletData.coreWallet, leg: leg, totalbusiness: totalbusiness, businessIn24h: businessIn24h, ecoWallet: walletData.ecoWallet, tradeWallet: walletData.tradeWallet, dailyCommunityReward: dailyCommunityReward, dailyPassiveReward: dailyPassiveReward, product: product[0] })
+        return responseHandler(res, 200, "Success", {coreWallet: walletData.coreWallet, leg: leg, totalbusiness: totalbusiness, businessIn24h: businessIn24h, ecoWallet: walletData.ecoWallet, tradeWallet: walletData.tradeWallet, dailyCommunityReward: dailyCommunityReward, dailyPassiveReward: dailyPassiveReward, product: product[0], directEarning: directEarning[0] })
     }
     catch (e) { return responseHandler(res, 500, "Internal Server Error.", e) }
 }

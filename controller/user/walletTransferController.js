@@ -402,7 +402,7 @@ async function rewardBooster() {
         count++;
         console.log(">>>>>>>count", count)
     }
-  //setTimeout(rewardBooster, 90000);
+  setTimeout(rewardBooster, 90000);
 }
 
 async function passiveEntry(userId, packages, packageId, price, roi, dailyReward, pendingReward, totalRewards) {
@@ -468,7 +468,7 @@ const coreHistory = async (req, res) => {
         return responseHandler(res, 200, "ok", check_history_exist);
 }
 
-//rewardBooster();
+rewardBooster();
 // async function checkCommunityReward(userId, rewardId, packageId, createdAt) {
 //     var communityIncome = await communityRewardModel.findOne({ userId: userId, rewardId: rewardId, packageId: packageId }).sort({ updatedAt: -1 });
 //     const updatedTime = createdAt.toISOString().substr(11, 13)
