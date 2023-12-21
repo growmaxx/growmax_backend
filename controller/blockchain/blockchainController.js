@@ -88,7 +88,7 @@ const transferFund = async (req, res) => {
         }
         console.log("coreHistroy>>>>>", coreHistroy);
         await coreHistoryModel.create(coreHistroy);
-        const updateWallet = await walletModel.findOneAndUpdate({ userId: userId }, { $set: { coreWallet: coreWallet } })
+        const updateWallet = await walletModel.findOneAndUpdate({ userId: userId }, { $set: { tradeWallet: coreWallet } })
         // create history
         const createOrder = {
             userId: userId,
@@ -196,7 +196,7 @@ const transferFund2 = async (req, res) => {
         }
         console.log("coreHistroy>>>>>", coreHistroy);
         await coreHistoryModel.create(coreHistroy);
-        const updateWallet = await walletModel.findOneAndUpdate({ userId: userId }, { $set: { coreWallet: coreWallet } })
+        const updateWallet = await walletModel.findOneAndUpdate({ userId: userId }, { $set: { tradeWallet: coreWallet } })
         // create history
         const createOrder = {
             userId: userId,
@@ -329,7 +329,7 @@ async function coreWalletBalance(userId) {
         let pendingGmt = parseFloat(pending.toFixed(2))
         console.log("pendingGmt====>", pendingGmt);
         const data = await walletModel.findOne({ userId: userId });
-        const coreBal = parseFloat(data.coreWallet.toFixed(2))
+        const coreBal = parseFloat(data.tradeWallet.toFixed(2))
         if (!data) {
             return responseHandler(res, 200, { coreWalletBalance: 0 });
         }
