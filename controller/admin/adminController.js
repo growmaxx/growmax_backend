@@ -112,12 +112,13 @@ const adminDisplayData = async (req, res) => {
             }
         }
     ]);
+    console.log("=====>", withdraw24H[0]);
     let data = {
         totalUser: users.length,
         coreWallet: wallet[0].coreWallet,
         totalProduct: productMinipack.length + productRegular[0].count,
         gmt: withdraw24H[0] ? withdraw24H[0].gmtAmount : 0,
-        totalGmt: withdrawTotal[0].gmtAmount,
+        totalGmt: withdrawTotal[0]? withdrawTotal[0].gmtAmount: 0,
         miniPack: productMinipack.length,
         regularPackCount: productRegular[0].count,
         completeRegularPack: completeRegularPack,
@@ -129,6 +130,7 @@ const adminDisplayData = async (req, res) => {
         newUser: newUser,
         newProduct:newProduct
     }
+    console.log("=====>", data);
     return responseHandler(res, 200, "OK", data);
 }
 

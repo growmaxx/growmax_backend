@@ -86,7 +86,6 @@ const transferFund = async (req, res) => {
             orderId: gmtTxId,
             status: true
         }
-        console.log("coreHistroy>>>>>", coreHistroy);
         await coreHistoryModel.create(coreHistroy);
         const updateWallet = await walletModel.findOneAndUpdate({ userId: userId }, { $set: { tradeWallet: coreWallet } })
         // create history
