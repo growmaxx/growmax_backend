@@ -73,6 +73,7 @@ const transferFund = async (req, res) => {
 
         // update core wallet balance
         const coreWallet = checkbalance - req.body.gmt;
+        console.log("------> coreWallet", coreWallet);
         let coreHistroy = {
             userId: userId,
             sender: check_user_exist.username,
@@ -333,7 +334,7 @@ async function coreWalletBalance(userId) {
             return responseHandler(res, 200, { coreWalletBalance: 0 });
         }
         else if (pendingGmt >= coreBal) {
-            return data.coreWallet;
+            return data.tradeWallet;
         }
         else {
             return -1;
