@@ -13,8 +13,8 @@ orderRoute.get('/communityIncome',verifyJwt, communityIncome);
 orderRoute.post('/communityIncomeDate',verifyJwt, communityIncomeDate);
 orderRoute.get('/coreWalletBalance',verifyJwt, coreWalletBalance);
 
-orderRoute.post('/coreToEco',verifyJwt, coreToEco);
-orderRoute.post('/coreToTrade',verifyJwt, coreToTrade);
+// orderRoute.post('/coreToEco',verifyJwt, coreToEco);
+// orderRoute.post('/coreToTrade',verifyJwt, coreToTrade);
 // orderRoute.post('/coreToCore',verifyJwt, coreToCore);
 orderRoute.get('/coreHistory',verifyJwt, coreHistory);
 orderRoute.get('/miniOrder',verifyJwt, miniOrder);
