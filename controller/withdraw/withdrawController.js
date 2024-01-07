@@ -3,6 +3,7 @@ import { __esModule } from '@babel/register/lib/node';
 import userModel from '../../model/user/user';
 import withdrawModel from '../../model/user/withdraw'
 import { verifyJwtToken, verifyQrCode } from '../../common/function';
+import oneTimeRewardModel from '../../model/rewards/oneTimeReward'
 import { host, angular_port } from '../../envirnoment/config'
 import twoFA from '../../model/user/gauth';
 import mongoose from 'mongoose';
@@ -64,9 +65,31 @@ const getWithdrawWallet = async (req, res) => {
         return responseHandler(res, 500, e)
     }
 }
- 
+
+const directIncome = async (req, res) => {
+    console.log("======> req", req.body);
+    let userId = await verifyJwtToken(req, res);
+    console.log("====>userId", userId);
+    let check_user_exist = await userModel.findOne({ _id: userId })
+    if (!check_user_exist) return responseHandler(res, 461, "User doesn't exist");
+    let check_history_exist = await oneTimeRewardModel.find({ userId: userId }).sort({ createdAt: -1 });
+    console.log("====>check_history_exist", check_history_exist);
+    if (check_history_exist.length < 1) return responseHandler(res, 461, "No History found");
+    return responseHandler(res, 200, "ok", check_history_exist);
+}
+
+const monthlyIncome = async (req, res) => {
+    // let userId = await verifyJwtToken(req, res);
+    // let check_user_exist = await userModel.findOne({ _id: userId })
+    // if (!check_user_exist) return responseHandler(res, 461, "User doesn't exist");
+    // let check_history_exist = await monthlyHistoryModel.find({ userId: userId }).sort({ createdAt: -1 });
+    // if (check_history_exist.length < 1) return responseHandler(res, 461, "No History found");
+    // return responseHandler(res, 200, "ok", check_history_exist);
+}
 
 module.exports = {
     addWithdrawWallet: addWithdrawWallet,
-    getWithdrawWallet: getWithdrawWallet
+    getWithdrawWallet: getWithdrawWallet,
+    monthlyIncome: monthlyIncome,
+    directIncome: directIncome
 }
