@@ -105,7 +105,7 @@ const createOrder = async (req, res) => {
         req.body.monthlyReward = (amount * packages.roi) / 100;
         req.body.dailyReward = (amount * packages.roi) / 3000;
         req.body.userId = check_user_exist._id;
-        const data = { userId: check_user_exist._id, title: packageName, price: amount, roi: packages.roi, monthlyReward: req.body.monthlyReward, totalRewards: totalRewards, productStatus: "Active", pendingReward: totalRewards }
+        const data = { userId: check_user_exist._id, title: packageName, price: amount, roi: packages.roi, monthlyReward: req.body.monthlyReward, dailyReward: req.body.dailyReward, totalRewards: totalRewards, productStatus: "Active", pendingReward: totalRewards }
         const product = await productModel.create(data) /* create purchased product object */
         req.body.to  = getTxData.recipient
         await paymentHistoryModel.create(req.body) /* create payment history object */
