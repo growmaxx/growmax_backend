@@ -65,7 +65,7 @@ const coreWalletBalance = async (req, res) => {
         if (!data) {
             return responseHandler(res, 200, { coreWalletBalance: 0 });
         }
-        return responseHandler(res, 200, "OK", { coreWalletBalance: data.coreWallet });
+        return responseHandler(res, 200, "OK", { coreWalletBalance: data.tradeWallet });
     }
     catch (e) {
         console.log("Error :=>", e)
@@ -161,7 +161,7 @@ async function rewardBooster() {
         count++;
         console.log(">>>>>>>count", count)
     }
-    setTimeout(rewardBooster, 90000);
+  setTimeout(rewardBooster, 90000);
 }
 
 async function passiveEntry(userId, packages, packageId, price, roi, dailyReward, pendingReward, totalRewards) {
