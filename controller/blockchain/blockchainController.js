@@ -89,6 +89,7 @@ const transferFund = async (req, res) => {
         }
         await coreHistoryModel.create(coreHistroy);
         const updateWallet = await walletModel.findOneAndUpdate({ userId: userId }, { $set: { tradeWallet: coreWallet } })
+        console.log("------> updateWallet", updateWallet);
         // create history
         const createOrder = {
             userId: userId,
@@ -105,9 +106,10 @@ const transferFund = async (req, res) => {
             oldCoreBal: checkbalance,
             totalAmount: amount
         }
+        console.log("------> createOrder", createOrder);
         await withdrawHistoryModel.create(createOrder)
         const withdrwTime = await withdrawHistoryModel.findOne({ orderId: gmtTxId })
-        if (withdrwTime.oldCoreBal == updateWallet.coreWallet) {
+        if (withdrwTime.oldCoreBal == updateWallet.tradeWallet) {
             // Withdraw coin process
             var coinTransfer
             if (req.body.coin == 'BNB') {
